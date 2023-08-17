@@ -40,6 +40,29 @@
                               3))
                1))
 
+;; ex1.11
+(define (f-rec n)
+  (cond
+    ((< n 3) n)
+    (else (+ (f-rec (- n 1))
+             (* 2 (f-rec (- n 2)))
+             (* 3 (f-rec (- n 3)))))))
+
+(define (f-iter n)
+  (define (iter a b c count)
+    (cond
+      ((< n 3) n)
+      (else (if (= count 2)
+                c
+                (iter b
+                      c
+                      (+ (* a 3)
+                         (* b 2)
+                         c)
+                      (- count 1))))))
+  (iter 0 1 2 n))
+
+
 
 
   
