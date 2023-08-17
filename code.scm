@@ -2,7 +2,7 @@
 
 #lang sicp
 
-;; ex1.3
+;; ex 1.3
 (define (f a b c)
   (cond
     ((< a b)(f b a c))
@@ -69,6 +69,19 @@
     ((or (= col row) (= col 0)) 1)
     (else (+ (pascal (- row 1) (- col 1))
              (pascal (- row 1) col)))))
+
+;; ex 1.16
+(define (expt-iter b n)
+  (define (iter b n a)
+    (cond
+      ((= n 0) a)
+      ((even? n) (iter (* b b) (/ n 2) a))
+      (else (iter b (- n 1) (* a b)))))
+  (iter b n 1))
+
+
+
+
 
                     
 
