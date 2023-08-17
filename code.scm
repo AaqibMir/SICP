@@ -33,6 +33,13 @@
   
   (iter guess (f guess)))
 
+;; ex1.8
+(define (cbrt x)
+  (fixed-point (lambda (y) (/ (+ (/ x (square y))
+                                 (* 2 y))
+                              3))
+               1))
+
 
 
   
