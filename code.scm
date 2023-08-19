@@ -98,7 +98,7 @@
 (define (find-divisor n test-divisor)
   (cond ((> (square test-divisor) n) n)
         ((divides? test-divisor n) test-divisor)
-        (else (find-divisor n (+ test-divisor 1)))))
+        (else (find-divisor n (next test-divisor)))))
 (define (divides? a b)
   (= (remainder b a) 0))
 
@@ -127,7 +127,11 @@
   (iter n 3))
 
 
- 
+;; ex 1.23
+(define (next test-divisor)
+  (if (= test-divisor 2)
+      (+ test-divisor 1)
+      (+ test-divisor 2)))
       
 
 
