@@ -91,7 +91,42 @@
       ((even? b) (iter (double a) (halve b) c))
       (else (iter a (- b 1) (+ c a)))))
   (iter a (abs b) 0))
-    
+
+;;ex 1.22
+(define (smallest-divisor n)
+  (find-divisor n 2))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
+(define (start-prime-test n start-time)
+
+  (if (prime? n)
+      (report-prime (- (runtime) start-time)))
+  )
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (search-for-primes n)
+  (define (iter n times)
+    (cond
+      ((= times 0 ) (newline))
+      ((prime? n) (timed-prime-test n) (iter (+ n 1) (- times 1)))
+      (else (iter (+ n 1) times))))
+  (iter n 3))
+
+
  
       
 
