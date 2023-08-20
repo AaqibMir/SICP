@@ -215,12 +215,18 @@
   (* (/ h 3)
      (+ (f a)
         (f b)
-        (* 4 (sum f (+ a h) (lambda (x) (+ x (* 2 h))) (- b h)))
-        (* 2 (sum f (+ a (* 2 h)) (lambda (x) (+ x (* 2 h))) (- b (* 2 h)))))))
+        (* 4 (sum-iter f (+ a h) (lambda (x) (+ x (* 2 h))) (- b h)))
+        (* 2 (sum-iter f (+ a (* 2 h)) (lambda (x) (+ x (* 2 h))) (- b (* 2 h)))))))
 
 (define (cube x) (* x x x))
 
-
+;; ex 1.30
+(define (sum-iter term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
 
       
 
