@@ -167,8 +167,42 @@
         
   (iter 2 n))
       
+;; ex 1.28
 
+(define (robin-miller-test n)
+  (define (try a)
+    (= 0 (expmod-rob-mill a (- n 1) n)))   
+        
+  (try (+ 1 (random (- n 1)))))
+(define (miller-robin-prime? n times)
+  (cond
+    ((= 0 times) true)
+    ((robin-miller-test n) (miller-robin-prime? n (- times 1)))
+    (else false)))
+(define (expmod-rob-mill base exp mod)
+  (define (square-and-test x)
+    (cond
+      ((= 1 (remainder (square x) mod))
+       (if (or (not (= 1 (remainder x mod)))
+               (not (= (- mod 1) (remainder x mod))))
+           0
+           (square x)))
+      (else (square x))))
+         
   
+  (cond
+    ((= exp 0) 1)
+    ((even? exp)
+     (remainder (square-and-test(expmod-rob-mill base
+                                                 (/ exp 2)
+                                                 mod)) mod))
+    (else (remainder (* base (expmod-rob-mill base
+                                              (- exp 1)
+                                              mod))
+                     mod))))
+
+
+
 
 
 
