@@ -21,17 +21,25 @@
 
 (define (fixed-point f guess)
   
-  (define (iter old new)
-    (if (good-enough? old new)
-        new
-        (iter new (f new))))
+  (define (iter old new count)
+    (display old)
+    (display "---")
+    (display new)
+    (newline)
+    (cond ((good-enough? old new)
+           (display "No of guesses it took:")
+           (display count)
+           (newline)
+           new)
+        
+        (else (iter new (f new) (+ count 1)))))
   
   (define (good-enough? x y)
     (< (/ (abs (- x y)) y) tolerance))
   
   (define tolerance 0.0001)
   
-  (iter guess (f guess)))
+  (iter guess (f guess) 1))
 
 ;; ex1.8
 (define (cbrt x)
@@ -306,4 +314,12 @@
   (fixed-point (lambda (x) (+ 1 (/ 1 x))) 1))
 
 
-  
+;; ex 1.36
+(define (fp-fx)
+  (fixed-point (lambda (x) (/ (log 1000)
+                              (log x))) 2))
+
+(define (fp-fx-ad)
+  (fixed-point (average-damp (lambda (x) (/ (log 1000)
+                                            (log x)))) 2))
+
