@@ -325,18 +325,36 @@
 
 ;; ex 1.37
 (define (cont-frac-rec n d k)
-  (if (= 0 k)
+  (define (f n d m)
+    
+  (if (> m k)
       0
-      (/ (n k)
-         (+ (d k)
-            (cont-frac-rec n d (- k 1))))))
+      (/ (n m)
+         (+ (d m)
+            (f n d (+ m 1))))))
+  (f n d 1))
 
 (define (cont-frac n d k)
   (define (iter k result)
-    (if (= k 1)
+    (if (= k 0)
         result
         (iter (- k 1) (/ (n k)
                          (+ (d k) result)))))
-  (iter k (/ (n k) (d k))))
+  (iter k 0))
+
+;; ex 1.38
+(define (euler-expansion k)
+  (define (d k)
+    (define (iter a b c k)
+      (if (= k 1)
+          c
+          (iter (if (= c 1) 1 (+ 2 c)) a b (- k 1))))
+    (iter 1 2 1 k))
+  (+ 2 (cont-frac (lambda (i) 1.0)
+                     d
+                     k)))
+      
+
+    
 
       
