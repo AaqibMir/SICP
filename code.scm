@@ -300,5 +300,10 @@
 (filtered-accumulate * 1 (lambda (x) x) 1 (lambda (x) (+ x 1))
                      (- n 1) pred?))
                                           
-                     
+
+;; ex 1.35
+(define (golden-ratio)
+  (fixed-point (lambda (x) (+ 1 (/ 1 x))) 1))
+
+
   
