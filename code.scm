@@ -323,3 +323,20 @@
   (fixed-point (average-damp (lambda (x) (/ (log 1000)
                                             (log x)))) 2))
 
+;; ex 1.37
+(define (cont-frac-rec n d k)
+  (if (= 0 k)
+      0
+      (/ (n k)
+         (+ (d k)
+            (cont-frac-rec n d (- k 1))))))
+
+(define (cont-frac n d k)
+  (define (iter k result)
+    (if (= k 1)
+        result
+        (iter (- k 1) (/ (n k)
+                         (+ (d k) result)))))
+  (iter k (/ (n k) (d k))))
+
+      
