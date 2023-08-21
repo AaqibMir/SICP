@@ -228,9 +228,30 @@
         (iter (next a) (+ result (term a)))))
   (iter a 0))
 
-      
+;; ex 1.31
+;; recursive version
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
 
-
+(define (factorial n)
+  (product-iter (lambda (x) x) 1 (lambda (x) (+ x 1)) n))
+;; iterative version
+(define (product-iter term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (* result (term a)))))
+  (iter a 1))
+;; pi approximation
+(define (pi-approx n)
+  (* 4.0 (product (lambda (x) (/ (* x (+ x 2))
+                          (square (+ x 1))))
+           2
+           (lambda (x) (+ x 2))
+           n)))
 
                     
 
