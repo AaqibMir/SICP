@@ -355,6 +355,15 @@
                      k)))
       
 
+;; ex 1.39
+(define (tan-cf x k)
+  (define (n k)
+    (if (= k 1)
+        x
+        (-(square x))))
+  (define (d k)
+    (- (* 2 k) 1))
+  (cont-frac n d k))
     
 
       
