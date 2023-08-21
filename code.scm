@@ -277,4 +277,28 @@
         (iter (next a) (combiner result (term a)))))
   (iter a null-value))
 
+;; ex 1.33
+(define (filtered-accumulate combiner null-value term
+                             a next b pred)
+  
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (combiner result (if (pred a)
+                                            (term a)
+                                            null-value)))))
+  (iter a null-value))
+
+;; a
+;;(filtered-accumulate + 0 square 2 (lambda (x) (+ x 1))
+ ;;                   5 prime?)
+
+;; b
+(define (relative-prime-product n)
+  (define (pred? x)
+    (= 1 (gcd x n)))
+(filtered-accumulate * 1 (lambda (x) x) 1 (lambda (x) (+ x 1))
+                     (- n 1) pred?))
+                                          
+                     
   
