@@ -366,4 +366,28 @@
   (cont-frac n d k))
     
 
-      
+;; ex 1.40
+;; Below definitions copied from the book
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x))
+       dx)))
+(define dx 0.00001)
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))))
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+
+(define (fixed-point-of-transform g transform guess)
+  (fixed-point (transform g) guess))
+;; Actual code for the given exercise
+(define (cubic a b c)
+  (lambda (x)
+    (+ (* x (square x))
+       (* a (square x))
+       (* b x)
+       c)))
+
+
+
