@@ -397,3 +397,11 @@
 (define (compose f g)
   (lambda (x) (f (g x))))
 
+;; ex 1.43
+(define (repeated f n)
+  (define (iter n x)
+    (if (= n 0)
+        x
+        (iter (- n 1) (f x))))
+  (lambda (x) (iter n x)))
+        
