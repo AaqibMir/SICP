@@ -393,5 +393,7 @@
 (define (double- f)
   (lambda (x) (f (f x))))
 
-  
+;; ex 1.42
+(define (compose f g)
+  (lambda (x) (f (g x))))
 
