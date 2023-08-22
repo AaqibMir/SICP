@@ -427,7 +427,19 @@
   ((repeated smooth n) f))
 
 
+;; ex 1.45
+(define (nth-root root number)
+  (define (times p k)
+    
+    (if (= k 0)
+        1
+        (* p (times p (- k 1)))))
+  (fixed-point ((repeated average-damp (floor (log root 2)))
+                (lambda (x) (/ number (times x (- root 1)))))
+               1.0))
 
+
+                                                   
     
     
 
