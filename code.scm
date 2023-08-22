@@ -438,8 +438,29 @@
                 (lambda (x) (/ number (times x (- root 1)))))
                1.0))
 
+;; ex 1.46
+;; iterative improvement strategy
+(define (iterative-improve good-enough? improve)
+  (lambda (guess)
+    (define (iter guess new-guess)
+      (display guess)
+      (display "---")
+      (display new-guess)
+      (newline)
+      (if (good-enough? guess new-guess)
+          new-guess
+          (iter new-guess (improve new-guess))))
+    (iter guess (improve guess))))
 
+(define (sqrt-new num)
+  (define tolerance 0.0001)
+  ((iterative-improve (lambda (x y)
+                       (< (/ (abs (- x y)) y) tolerance))
+                     (newton-transform (lambda (y) (- (square y) num)))) 1.0))
                                                    
     
-    
+(define (fixed-point-new f guess)
+  (define tolerance 0.00001)
+  ((iterative-improve (lambda (x y) (< (/ (abs (- x y)) y) tolerance))
+                      (average-damp f)) guess))
 
