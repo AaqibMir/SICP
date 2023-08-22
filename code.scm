@@ -404,4 +404,30 @@
         x
         (iter (- n 1) (f x))))
   (lambda (x) (iter n x)))
-        
+
+;; ex 1.44
+;; repeated procedure using compose function version
+
+(define (repeated-rec f n)
+  (if (= n 1)
+      f
+      (compose f (repeated-rec f (- n 1)))))
+      
+     
+
+(define (smooth f)
+  (define dx 0.000001)
+  (lambda (x) (/ (+ (f (- x dx))
+                    (f x)
+                    (f (+ x dx)))
+                3)))
+
+
+(define (n-fold-smoothed f n)
+  ((repeated smooth n) f))
+
+
+
+    
+    
+
