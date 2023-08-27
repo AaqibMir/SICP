@@ -530,3 +530,58 @@
 (print-point midpt)
 
 |#
+
+
+;; ex 2.3
+(define (attach-type type content)
+  (cons type content))
+(define (type datum)
+  (car datum))
+(define (contents datum)
+  (cdr datum))
+
+;; type predicates
+(define (A? datum)
+  (eq? (type datum) 'A))
+(define (B? datum)
+  (eq? (type datum) 'B))
+
+;; A's representation
+(define (make-rect-A l b)
+  (attach-type 'A (cons l b)))
+(define (length-A rect)
+  (car rect))
+(define (breadth-A rect)
+  (cdr rect))
+(define (area-A rect)
+  (* (length-A rect)
+     (breadth-A rect)))
+(define (perimeter-A rect)
+  (* 2 (+ (length-A rect)
+          (breadth-A rect))))
+
+;; B's representation
+(define (make-rect-B l b)
+  (attach-type 'B (cons b l)))
+(define (length-B rect)
+  (cdr rect))
+(define (breadth-B rect)
+  (car rect))
+(define (area-B rect)
+  (* (length-B rect)
+     (breadth-B rect)))
+(define (perimeter-B rect)
+  (* 2 (+ (length-B rect)
+          (breadth-B rect))))
+
+;; Manager looks at type of datum and sends it to appropriate representations
+(define (area rect)
+  (cond
+    ((A? rect) (area-A (contents rect)))
+    ((B? rect) (area-B (contents rect)))))
+
+(define (perimeter rect)
+  (cond
+    ((A? rect) (perimeter-A (contents rect)))
+    ((B? rect) (perimeter-B (contents rect)))))
+
