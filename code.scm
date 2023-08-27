@@ -464,3 +464,28 @@
   ((iterative-improve (lambda (x y) (< (/ (abs (- x y)) y) tolerance))
                       (average-damp f)) guess))
 
+
+
+;; CHAPTER 2
+;; Building Abstractions With Data
+
+;; ex 2.1
+(define (make-rat n d)
+  (let ((g (gcd n d)))
+    (if (< (/ n d) 1)
+        (cons (/ (- (abs n)) g)
+              (/ (abs d) g))
+        (cons (/ (abs n) g)
+              (/ (abs d) g)))))
+;; copied from the book
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  (display "/")
+  (display (denom x)))
+
+(define (numer x) (car x))
+
+(define (denom x) (cdr x))
+
+
