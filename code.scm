@@ -594,3 +594,22 @@
 (define (cdr- z)
   (z (lambda (p q) q)))
 
+;; ex 2.5
+(define (cons-pair a b)
+  (* (expt-iter 2 a)
+     (expt-iter 3 b)))
+
+;; helper procedure
+(define (how-many-factors num factor)
+  (define (iter num result)
+    (if (= (remainder num factor) 0)
+        (iter (/ num factor) (+ result 1))
+        result))
+  (iter num 0))
+
+(define (car-pair num)
+  (how-many-factors num 2))
+(define (cdr-pair num)
+  (how-many-factors num 3))
+
+
