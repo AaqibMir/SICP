@@ -585,3 +585,12 @@
     ((A? rect) (perimeter-A (contents rect)))
     ((B? rect) (perimeter-B (contents rect)))))
 
+
+;; ex 2.4
+(define (cons- x y)
+  (lambda (m) (m x y)))
+(define (car- z)
+  (z (lambda (p q) p)))
+(define (cdr- z)
+  (z (lambda (p q) q)))
+
