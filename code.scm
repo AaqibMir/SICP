@@ -488,4 +488,45 @@
 
 (define (denom x) (cdr x))
 
+;; ex 2.2
+(define (make-segment pt1 pt2)
+  (cons pt1 pt2))
+(define (start-segment seg)
+  (car seg))
+(define (end-segment seg)
+  (cdr seg))
+(define (make-point x y)
+  (cons x y))
+(define (x-point pt)
+  (car pt))
+(define (y-point pt)
+  (cdr pt))
 
+;; copied from the book
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ",")
+  (display (y-point p))
+  (display ")"))
+
+
+(define (mid-point seg)
+  (make-point (average (x-point (start-segment seg))
+                       (x-point (end-segment seg)))
+              (average (y-point (start-segment seg))
+                       (y-point (end-segment seg)))))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+#| test case
+
+(define p1 (make-point 1 2))
+(define p2 (make-point 4 5))
+(define seg1 (make-segment p1 p2))
+(define midpt (mid-point seg1))
+(print-point midpt)
+
+|#
