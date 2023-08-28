@@ -612,4 +612,27 @@
 (define (cdr-pair num)
   (how-many-factors num 3))
 
+;; ex 2.6
+(define (one f)
+  (lambda (x) (f x)))
 
+(define (two f)
+  (lambda (x) (f (f x))))
+
+(define (zero f)
+  (lambda (x)
+    x))
+
+(define (add-cn a b)
+  (lambda (f)
+    (lambda (x)
+      ((a f) ((b f) x)))))
+
+(define (add1 x)
+  (+ x 1))
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+
+(define (three f)
+  (lambda (x) (f (f (f x)))))
+  
