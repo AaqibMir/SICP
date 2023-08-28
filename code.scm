@@ -675,3 +675,10 @@
                  (- (upper-bound x) (lower-bound y))))
 
 
+;; ex 2.10
+(define (div-interval-rectified x y)
+  (if (or (= 0 (lower-bound y)) (= 0 (upper-bound y)))
+      (error "Cannot divide by zero")
+      (mul-interval x
+                    (make-interval (/ 1.0 (upper-bound y))
+                                   (/ 1.0 (lower-bound y))))))
