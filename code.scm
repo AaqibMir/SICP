@@ -694,3 +694,8 @@
   (* 100 (/ (abs (- (center int) (lower-bound int)))
             (center int))))
 
+;; ex 2.17
+(define (last-pair lst)
+  (if (null? (cdr lst))
+      (car lst)
+      (last-pair (cdr lst))))
