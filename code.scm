@@ -756,3 +756,12 @@
 
 (define (square-list-map items)
   (map (lambda (x) (square x)) items))
+
+
+;; ex 2.23
+(define (for-each- proc things)
+  (cond
+    ((null? things) (newline))
+    (else (proc (car things))
+          (for-each- proc (cdr things)))))
+      
