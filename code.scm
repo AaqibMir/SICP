@@ -699,3 +699,11 @@
   (if (null? (cdr lst))
       (car lst)
       (last-pair (cdr lst))))
+
+;; ex 2.18
+(define (reverse lst)
+  (define (helper lst rev)
+    (if (null? lst)
+        rev
+        (helper (cdr lst) (cons (car lst) rev))))
+  (helper lst nil))
