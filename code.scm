@@ -732,4 +732,18 @@
 (define (no-more? coin-values)
   (null? coin-values))
 
+;; ex 2.20
 
+(define (same-parity x . list)
+  (define (filter proc lst)
+    (cond
+      ((null? lst) nil)
+      ((proc (car lst)) (cons (car lst)
+                              (filter proc (cdr lst))))
+      (else (filter proc (cdr lst)))))
+  (let ((p (even? x)))
+    (if p
+        (cons x (filter even? list))
+        (cons x (filter odd? list)))))
+
+  
