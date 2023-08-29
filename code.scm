@@ -682,3 +682,15 @@
       (mul-interval x
                     (make-interval (/ 1.0 (upper-bound y))
                                    (/ 1.0 (lower-bound y))))))
+
+;; ex 2.12
+(define (make-center-percent c p)
+  (let ((w (/ (* p c) 100)))
+    (make-interval (- c w) (+ c w))))
+(define (center i)
+  (/ (+ (lower-bound i) (upper-bound i)) 2))
+
+(define (percent int)
+  (* 100 (/ (abs (- (center int) (lower-bound int)))
+            (center int))))
+
