@@ -843,4 +843,25 @@
     (else (cons (square (car tree))
                 (square-tree-rec (cdr tree))))))
 
-             
+
+;; ex 2.31
+(define (tree-map-rec proc tree)
+  (cond
+    ((null? tree) '())
+    ((pair? (car tree)) (cons (tree-map-rec proc (car tree))
+                              (tree-map-rec proc (cdr tree))))
+    (else (cons (proc (car tree))
+                (tree-map-rec proc (cdr tree))))))
+
+(define (tree-map proc tree)
+  (map (lambda (x)
+         (if (pair? x)
+             (tree-map proc x)
+             (proc x)))
+       tree))
+(define (square-tree tree)
+  (tree-map square tree))
+
+(define (square-tree-using-rec tree)
+  (tree-map square tree))
+
