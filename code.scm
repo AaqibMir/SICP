@@ -865,7 +865,6 @@
 (define (square-tree-using-rec tree)
   (tree-map square tree))
 
-;; ex 2.31
 ;; when you want to write a recursive procedure, imagine your
 ;; procedure already works for some input n. Now find a way
 ;; to make it work for an extra input which itself may come in
@@ -874,6 +873,8 @@
 ;; handle each type and link it with the recursive call so it
 ;; starts to make sense. It helps if you can think of the form
 ;; your solution will have in the end.
+
+;; ex 2.32
 (define (subsets s)
   (if (null? s)
       (list nil)
