@@ -865,3 +865,19 @@
 (define (square-tree-using-rec tree)
   (tree-map square tree))
 
+;; ex 2.31
+;; when you want to write a recursive procedure, imagine your
+;; procedure already works for some input n. Now find a way
+;; to make it work for an extra input which itself may come in
+;; different forms like type A, type B etc. and there you go
+;; Start writing the procedure by thinking about how you would
+;; handle each type and link it with the recursive call so it
+;; starts to make sense. It helps if you can think of the form
+;; your solution will have in the end.
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest (map (lambda (x)
+                            (cons (car s) x))
+                          rest)))))
