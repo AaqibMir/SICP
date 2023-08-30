@@ -825,4 +825,22 @@
         
 
   
- (balanced? (list (list 1 (list (list 3 5) (list 5 6)))(list 1 (list (list 3 5) (list 5 6))) ))
+;; (balanced? (list (list 1 (list (list 3 5) (list 5 6)))(list 1 (list (list 3 5) (list 5 6))) ))
+
+;; ex 2.30
+(define (square-tree-map tree)
+  (map (lambda (x)
+         (if (pair? x)
+             (square-tree-map x)
+             (square x)))
+       tree))
+;; recursive version
+(define (square-tree-rec tree)
+  (cond
+    ((null? tree) '())
+    ((pair? (car tree)) (cons (square-tree-rec (car tree))
+                              (square-tree-rec (cdr tree))))
+    (else (cons (square (car tree))
+                (square-tree-rec (cdr tree))))))
+
+             
