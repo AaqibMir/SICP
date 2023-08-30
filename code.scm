@@ -775,3 +775,12 @@
                   (list (car lst))))))
 
 
+;; ex 2.28
+(define (fringe x)
+  (cond
+    ((null? x) '())
+    ((pair? (car x)) (append (fringe (car x))
+                             (fringe (cdr x))))
+    (else (cons (car x)
+                (fringe (cdr x))))))
+
