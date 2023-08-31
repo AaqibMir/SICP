@@ -928,4 +928,26 @@
             (accumulate-n op init (map (lambda (x)
                                          (cdr x)) seqs)))))
 
-         
+
+;; ex 2.37
+(define (dot-product v w)
+  (accumulate- + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+  (map (lambda (x) (dot-product x v)) m))
+
+(define (transpose mat)
+  (accumulate-n (lambda (x y) (cons x y)) nil mat))
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map (lambda (x)
+           (map (lambda (y)
+                  (accumulate- + 0
+                               (accumulate-n * 1 (list x y))))
+                cols)) m)))
+
+  
+;;(define m (list (list 2 0 -1) (list 3 5 2) (list -4 1 4)))
+;;(define n (list (list 5 1 -2) (list -1 0 4) (list 2 -3 3)))
+;;(matrix-*-matrix m n)
