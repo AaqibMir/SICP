@@ -709,8 +709,8 @@
   (helper lst nil))
 
 ;; ex 2.19
-(define us-coins (reverse (list 50 25 10 5 1)))
-(define uk-coins (list 100 50 20 10 5 2 1 0.5))
+;; (define us-coins (reverse (list 50 25 10 5 1)))
+;; (define uk-coins (list 100 50 20 10 5 2 1 0.5))
 
 (define (cc amount coin-values)
   (cond ((= amount 0) 1)
@@ -951,3 +951,20 @@
 ;;(define m (list (list 2 0 -1) (list 3 5 2) (list -4 1 4)))
 ;;(define n (list (list 5 1 -2) (list -1 0 4) (list 2 -3 3)))
 ;;(matrix-*-matrix m n)
+
+;; ex 2.39
+(define (fold-right op initial sequence)
+  (accumulate- op initial sequence))
+
+(define (fold-left op initial sequence)
+  (if (null? sequence)
+      initial
+      (fold-left op (op initial (car sequence)) (cdr sequence))))
+
+(define (reverse- seq)
+  (fold-right (lambda (x y) (append y (list x)))
+              nil seq))
+
+(define (reverse-- seq)
+  (fold-left (lambda (x y) (cons y x)) nil seq))
+        
