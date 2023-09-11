@@ -1004,6 +1004,19 @@
         (else (filter predicate (cdr sequence)))))
 
 
+;; ex 2.41
+(define (triplets n s)
+  (filter (lambda (pair)
+            (= (accumulate- + 0 pair) s))
+  (flatmap (lambda (i)
+             (flatmap (lambda (j)
+                        (map (lambda (k)
+                               (list i j k))
+                             (enumerate-interval (+ j 1) n)))
+                      (enumerate-interval (+ i 1) n)))
+           (enumerate-interval 1 n))))
 
+
+                             
              
   
