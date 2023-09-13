@@ -1112,7 +1112,7 @@
   (car v))
 
 (define (ycor-vect v)
-  (cadr v))
+  (cdr v))
 
 ;; add vectors
 (define (add-vect v1 v2)
@@ -1152,6 +1152,27 @@
   (cadr frame))
 (define (edge2- frame)
   (cddr frame))
+
+;; ex 2.48
+(define (make-segment- v1 v2)
+  (list v1 v2))
+(define (start-segment- seg)
+  (car seg))
+(define (end-segment- seg)
+  (cadr seg))
+
+#|  
+(define segment-list-outline
+  (list (make-segment- (make-vect 0 0)
+                      (make-vect 0 1))
+        (make-segment- (make-vect 0 1)
+                      (make-vect 1 1))
+        (make-segment- (make-vect 1 1)
+                      (make-vect 1 0))
+        (make-segment- (make-vect 1 0)
+                      (make-vect 0 0))))
+|#
+
 
 
 
