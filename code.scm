@@ -490,7 +490,7 @@
 (define (denom x) (cdr x))
 
 ;; ex 2.2
-(define (make-segment pt1 pt2)
+(define (make-segment- pt1 pt2)
   (cons pt1 pt2))
 (define (start-segment seg)
   (car seg))
@@ -526,7 +526,7 @@
 
 (define p1 (make-point 1 2))
 (define p2 (make-point 4 5))
-(define seg1 (make-segment p1 p2))
+(define seg1 (make-segment- p1 p2))
 (define midpt (mid-point seg1))
 (print-point midpt)
 
@@ -1103,7 +1103,7 @@
               
 (define right-split-new (split beside below))
 (define up-split-new (split below beside))
-
+#|
 ;; ex 2.46
 (define (make-vect x y)
   (cons x y))
@@ -1154,24 +1154,49 @@
   (cddr frame))
 
 ;; ex 2.48
-(define (make-segment- v1 v2)
+(define (make-segment-new- v1 v2)
   (list v1 v2))
 (define (start-segment- seg)
   (car seg))
 (define (end-segment- seg)
   (cadr seg))
-
-#|  
-(define segment-list-outline
-  (list (make-segment- (make-vect 0 0)
-                      (make-vect 0 1))
-        (make-segment- (make-vect 0 1)
-                      (make-vect 1 1))
-        (make-segment- (make-vect 1 1)
-                      (make-vect 1 0))
-        (make-segment- (make-vect 1 0)
-                      (make-vect 0 0))))
 |#
+;; ex 2.49
+#|(define (frame-coord-map frame)
+  (lambda (v)
+    (add-vect
+     (origin-frame frame)
+     (add-vect (scale-vect (xcor-vect v)
+                           (edge1-frame frame))
+               (scale-vect (ycor-vect v)
+                           (edge2-frame frame))))))
+
+|#
+
+;; using procedures from sicp-pict
+
+(define segment-list-outline
+  (list (make-segment (make-vect 0 0)
+                      (make-vect 0 1))
+        (make-segment (make-vect 0 1)
+                      (make-vect 1 1))
+        (make-segment (make-vect 1 1)
+                      (make-vect 1 0))
+        (make-segment (make-vect 1 0)
+                      (make-vect 0 0))))
+
+;; ex 2.49a
+(define outline (segments->painter segment-list-outline))
+;; (paint outline)
+
+;; ex 2.49b
+(define segment-list-x
+  (list (make-segment (make-vect 0 0)
+                      (make-vect 1 1))
+        (make-segment (make-vect 0 1)
+                      (make-vect 1 0))))
+(define draw-x (segments->painter segment-list-x))
+;; (paint draw-x)
 
 
 
