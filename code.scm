@@ -1092,6 +1092,17 @@
         (below painter (beside up up)))))
   
 
-                             
-             
+;; ex 2.45
+(define (split first second)
+  (lambda (painter n)
+    (if (= n 0)
+        painter
+        (let ((img ((split first second) painter
+                                         (- n 1))))
+          (first painter (second img img))))))
+              
+(define right-split-new (split beside below))
+(define up-split-new (split below beside))
+
+            
   
