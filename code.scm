@@ -1,8 +1,8 @@
 ;; Learning to code
 
-#lang sicp
-(#%require sicp-pict)
-
+;; #lang sicp
+;; (#%require sicp-pict)
+(define nil '())
 ;; ex 1.3
 (define (f a b c)
   (cond
@@ -1056,6 +1056,11 @@
   (helper (car positions) (cdr positions)))
 
 ;; code from the book
+;; temporary definitions of beside and below
+(define (below x y) (lambda (frame) (x frame)(y frame)))	    
+			    
+(define (beside x y) (lambda (frame) (x frame)(y frame)))
+
 (define (right-split painter n)
   (if (= n 0)
       painter
@@ -1103,7 +1108,7 @@
               
 (define right-split-new (split beside below))
 (define up-split-new (split below beside))
-#|
+
 ;; ex 2.46
 (define (make-vect x y)
   (cons x y))
@@ -1154,15 +1159,16 @@
   (cddr frame))
 
 ;; ex 2.48
-(define (make-segment-new- v1 v2)
+(define (make-segment v1 v2)
   (list v1 v2))
-(define (start-segment- seg)
+(define (start-segment seg)
   (car seg))
-(define (end-segment- seg)
+(define (end-segment seg)
   (cadr seg))
-|#
+
+
 ;; ex 2.49
-#|(define (frame-coord-map frame)
+(define (frame-coord-map frame)
   (lambda (v)
     (add-vect
      (origin-frame frame)
@@ -1171,7 +1177,7 @@
                (scale-vect (ycor-vect v)
                            (edge2-frame frame))))))
 
-|#
+
 
 ;; using procedures from sicp-pict
 
@@ -1186,7 +1192,7 @@
                       (make-vect 0 0))))
 
 ;; ex 2.49a
-(define outline (segments->painter segment-list-outline))
+;;(define outline (segments->painter segment-list-outline))
 ;; (paint outline)
 
 ;; ex 2.49b
@@ -1195,10 +1201,10 @@
                       (make-vect 1 1))
         (make-segment (make-vect 0 1)
                       (make-vect 1 0))))
-(define draw-x (segments->painter segment-list-x))
+;; (define draw-x (segments->painter segment-list-x))
 ;; (paint draw-x)
 
-
-
+;; Switched to mit-scheme but the interpreter complained about a couple of
+;; things so fixed a couple of them
 
 
