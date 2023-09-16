@@ -1111,13 +1111,13 @@
 
 ;; ex 2.46
 (define (make-vect x y)
-  (cons x y))
+  (list x y))
 
 (define (xcor-vect v)
   (car v))
 
 (define (ycor-vect v)
-  (cdr v))
+  (cadr v))
 
 ;; add vectors
 (define (add-vect v1 v2)
@@ -1133,7 +1133,7 @@
            (ycor-vect v2))))
 
 ;; scale vectors
-(define (scale-vect v s)
+(define (scale-vect s v)
   (make-vect (* s (xcor-vect v))
              (* s (ycor-vect v))))
 
@@ -1141,12 +1141,12 @@
 (define (make-frame origin edge1 edge2)
   (list origin edge1 edge2))
 
-(define (origin frame)
+(define (origin-frame frame)
   (car frame))
-(define (edge1 frame)
+(define (edge1-frame frame)
   (cadr frame))
 
-(define (edge2 frame)
+(define (edge2-frame frame)
   (caddr frame))
 
 (define (make-frame- origin edge1 edge2)
@@ -1179,8 +1179,6 @@
 
 
 
-;; using procedures from sicp-pict
-
 (define segment-list-outline
   (list (make-segment (make-vect 0 0)
                       (make-vect 0 1))
@@ -1192,8 +1190,9 @@
                       (make-vect 0 0))))
 
 ;; ex 2.49a
-;;(define outline (segments->painter segment-list-outline))
-;; (paint outline)
+;; outline-frame is a painter, given a frame it draws itself in it.
+;;(define outline-frame (segments->painter segment-list-outline))
+
 
 ;; ex 2.49b
 (define segment-list-x
@@ -1201,10 +1200,114 @@
                       (make-vect 1 1))
         (make-segment (make-vect 0 1)
                       (make-vect 1 0))))
-;; (define draw-x (segments->painter segment-list-x))
-;; (paint draw-x)
+;; outline-x is a painter, given a frame it draws itself in it.
+;;(define outline-x (segments->painter segment-list-x))
+
+;; draw-x is a painter too but it uses ouline to outline the frame itself before
+;; it draws x in it.
+;;(define (draw-x frame)
+;;  (outline-frame frame)
+;;  (outline-x frame))
+
+
 
 ;; Switched to mit-scheme but the interpreter complained about a couple of
 ;; things so fixed a couple of them
+
+
+;; execution of frame procedure will construct the window and put it up
+;; on your screen. This is where the painter will draw its painting.
+;; This window is named 'window' below and will be used by plot-line in
+;; draw-line procedure.
+(define window (frame -5 15 -5 15))
+
+
+(define (draw-line a b)
+  
+  (plot-line window (xcor-vect a) (ycor-vect a) (xcor-vect b) (ycor-vect b))
+  )
+
+
+(define (segments->painter segment-list)
+  
+  (lambda (frame)
+    
+    (for-each
+     (lambda (segment)
+       ;;(display "in")
+       (draw-line
+        ((frame-coord-map frame) (start-segment segment))
+        ((frame-coord-map frame) (end-segment segment))))
+       ;;(display "out")
+       ;;(newline))
+       
+     segment-list)))
+
+(define test-frame (make-frame (make-vect 0 0)
+			       (make-vect 10 0)
+			       (make-vect 0 10)))
+
+
+;; ex 2.49a
+;; outline-frame is a painter, given a frame it draws itself in it.
+(define outline-frame (segments->painter segment-list-outline))
+
+;; ex 2.49b
+;; outline-x is a painter, given a frame it draws itself in it.
+(define outline-x (segments->painter segment-list-x))
+;; draw-x is a painter too but it uses ouline to outline the frame itself
+;; before it draws x in it.
+(define (draw-x frame)
+  (outline-frame frame)
+  (outline-x frame))
+
+
+;; ex 2.49c
+(define segment-list-diamond
+  (list (make-segment (make-vect 0.5 0)
+		      (make-vect 0 0.5))
+	(make-segment (make-vect 0 0.5)
+		      (make-vect 0.5 1))
+	(make-segment (make-vect 0.5 1)
+		      (make-vect 1 0.5))
+	(make-segment (make-vect 1 0.5)
+		      (make-vect 0.5 0))))
+
+(define outline-diamond (segments->painter segment-list-diamond))
+(define (draw-diamond frame)
+  (outline-frame frame)
+  (outline-diamond frame))
+
+
+
+(define segment-list-wave
+  (list
+   (make-segment (make-vect .25 0) (make-vect .35 .5))
+   (make-segment (make-vect .35 .5) (make-vect .3 .6))
+   (make-segment (make-vect .3 .6) (make-vect .15 .4))
+   (make-segment (make-vect .15 .4) (make-vect 0 .65))
+ ;;(make-segment (make-vect 0 .65) (make-vect 0 .85))
+   (make-segment (make-vect 0 .85) (make-vect .15 .6))
+   (make-segment (make-vect .15 .6) (make-vect .3 .65))
+   (make-segment (make-vect .3 .65) (make-vect .4 .65))
+   (make-segment (make-vect .4 .65) (make-vect .35 .85))
+   (make-segment (make-vect .35 .85) (make-vect .4 1))
+   ;;(make-segment (make-vect .4 1) (make-vect .6 1))
+   (make-segment (make-vect .6 1) (make-vect .65 .85))
+   (make-segment (make-vect .65 .85) (make-vect .6 .65))
+   (make-segment (make-vect .6 .65) (make-vect .75 .65))
+   (make-segment (make-vect .75 .65) (make-vect 1 .35))
+   ;;(make-segment (make-vect 1 .35) (make-vect 1 .15))
+   (make-segment (make-vect 1 .15) (make-vect .6 .45))
+   (make-segment (make-vect .6 .45) (make-vect .75 0))
+   ;;(make-segment (make-vect .75 0) (make-vect .6 0))
+   (make-segment (make-vect .6 0) (make-vect .5 .3))
+   (make-segment (make-vect .5 .3) (make-vect .4 0))
+   ;;(make-segment (make-vect .4 0) (make-vect .25 0))
+   ))
+;; 2.49d
+;; outline-wave is a painter which needs a frame befor it can draw itself
+;; in it.
+(define outline-wave (segments->painter segment-list-wave))
 
 
