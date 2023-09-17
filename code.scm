@@ -1128,6 +1128,14 @@
     (let ((half (beside (flip-horiz quarter) quarter)))
       (below (flip-vert half) half))))
 
+(define (flip-vert painter)
+  (transform-painter painter
+                     (make-vect 0.0 1.0)   ; new origin
+                     (make-vect 1.0 1.0)   ; new end of edge1
+                     (make-vect 0.0 0.0))) ; new end of edge2
+
+
+
 
 
 
@@ -1379,5 +1387,61 @@
   (beside (rotation-1 painter1) (rotation-2 painter2)))
 
 
-  
+;; ex 2.52a
+(define segment-list-wave-b
+  (list
+   (make-segment (make-vect 0 0) (make-vect 1 1))
+   (make-segment (make-vect 1 0) (make-vect 0 1))
+   (make-segment (make-vect .25 0) (make-vect .35 .5))
+   (make-segment (make-vect .35 .5) (make-vect .3 .6))
+   (make-segment (make-vect .3 .6) (make-vect .15 .4))
+   (make-segment (make-vect .15 .4) (make-vect 0 .65))
+ ;;(make-segment (make-vect 0 .65) (make-vect 0 .85))
+   (make-segment (make-vect 0 .85) (make-vect .15 .6))
+   (make-segment (make-vect .15 .6) (make-vect .3 .65))
+   (make-segment (make-vect .3 .65) (make-vect .4 .65))
+   (make-segment (make-vect .4 .65) (make-vect .35 .85))
+   (make-segment (make-vect .35 .85) (make-vect .4 1))
+   ;;(make-segment (make-vect .4 1) (make-vect .6 1))
+   (make-segment (make-vect .6 1) (make-vect .65 .85))
+   (make-segment (make-vect .65 .85) (make-vect .6 .65))
+   (make-segment (make-vect .6 .65) (make-vect .75 .65))
+   (make-segment (make-vect .75 .65) (make-vect 1 .35))
+   ;;(make-segment (make-vect 1 .35) (make-vect 1 .15))
+   (make-segment (make-vect 1 .15) (make-vect .6 .45))
+   (make-segment (make-vect .6 .45) (make-vect .75 0))
+   ;;(make-segment (make-vect .75 0) (make-vect .6 0))
+   (make-segment (make-vect .6 0) (make-vect .5 .3))
+   (make-segment (make-vect .5 .3) (make-vect .4 0))
+   ;;(make-segment (make-vect .4 0) (make-vect .25 0))
+   ))
+
+(define outline-wave-b
+  (segments->painter segment-list-wave-b))
+
+
+;; ex 2.52b
+(define (corner-split-b painter n)
+  (if (= n 0)
+      painter
+      (let ((up (up-split painter (- n 1)))
+            (right (right-split painter (- n 1))))
+        (let ((top-left up)
+              (bottom-right right)
+              (corner (corner-split painter (- n 1))))
+          (beside (below painter top-left)
+                  (below bottom-right corner))))))
+
+;; ex 2.52c
+(define (square-of-four tl tr bl br)
+  (lambda (painter)
+    (let ((top (beside (tl painter) (tr painter)))
+          (bottom (beside (bl painter) (br painter))))
+      (below bottom top))))
+
+(define (square-limit-b painter n)
+  (let ((combine4 (square-of-four flip-horiz rotate-270
+                                  rotate-180 flip-vert)))
+    (combine4 (corner-split painter n))))
+
 
