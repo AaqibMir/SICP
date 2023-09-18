@@ -1445,3 +1445,22 @@
     (combine4 (corner-split painter n))))
 
 
+
+;; ex 2.54
+(define (equal? l1 l2)
+  (cond
+   ((and (symbol? l1) (symbol? l2)) (eq? l1 l2))
+   ((or (symbol? l1) (symbol? l2)) #f)
+   (else
+    (cond
+   ((and (null? l1) (null? l2)) #t)
+   ((or (null? l1) (null? l2)) #f)
+   ((and (symbol? (car l1)) (symbol? (car l2)))
+    (and (eq? (car l1) (car l2)) (equal? (cdr l1) (cdr l2))))
+   ((or (symbol? (car l1)) (symbol? (car l2))) #f)
+   (else (and (equal? (car l1) (car l2))
+	      (equal? (cdr l1) (cdr l2))))))))
+
+
+    
+       
