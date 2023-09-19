@@ -369,14 +369,14 @@
 
 ;; ex 1.40
 ;; Below definitions copied from the book
-(define (deriv g)
+(define (deriv- g)
   (lambda (x)
     (/ (- (g (+ x dx)) (g x))
        dx)))
 (define dx 0.00001)
 (define (newton-transform g)
   (lambda (x)
-    (- x (/ (g x) ((deriv g) x)))))
+    (- x (/ (g x) ((deriv- g) x)))))
 (define (newtons-method g guess)
   (fixed-point (newton-transform g) guess))
 
@@ -492,9 +492,9 @@
 ;; ex 2.2
 (define (make-segment- pt1 pt2)
   (cons pt1 pt2))
-(define (start-segment seg)
+(define (start-segment- seg)
   (car seg))
-(define (end-segment seg)
+(define (end-segment- seg)
   (cdr seg))
 (define (make-point x y)
   (cons x y))
@@ -514,10 +514,10 @@
 
 
 (define (mid-point seg)
-  (make-point (average (x-point (start-segment seg))
-                       (x-point (end-segment seg)))
-              (average (y-point (start-segment seg))
-                       (y-point (end-segment seg)))))
+  (make-point (average (x-point (start-segment- seg))
+                       (x-point (end-segment- seg)))
+              (average (y-point (start-segment- seg))
+                       (y-point (end-segment- seg)))))
 
 (define (average x y)
   (/ (+ x y) 2))
@@ -1476,20 +1476,32 @@
   (and (pair? x) (eq? (car x) '+)))
 
 (define (addend s) (cadr s))
-
+;; ex 2.57
 (define (augend s)
-  (if (= (length s) 3) (caddr) (cons '+ (caddr s))))
+  (if (= (length s) 3) (caddr s) (cons '+ (cddr s ))))
 
 (define (product? x)
   (and (pair? x) (eq? (car x) '*)))
 
 (define (multiplier p)
   (cadr p))
+;; ex 2.57
 (define (multiplicand p)
-  (caddr p))
+  (if (= (length p) 3) (caddr p) (cons '* (cddr p))))
 
+;; ex 2.57
+;; works in drracket, mit-scheme, but not in "scmutils on top of mit-scheme"
+;; the problem seems to be in quoting + symbol when making a list at the end
+;; of make-sum procedure
+;; (list '+ '(* x y) '(* y (+ x 3))) returns (+ (* 2 x y) (* 3 y))
+;; (list '+ 4 6) returns 10
 
 (define (make-sum a1 a2)
+  (display "The sum of ")
+  (display a1)
+  (display " and ")
+  (display a2)
+  (newline)
   (cond ((=number? a1 0) a2)
         ((=number? a2 0) a1)
         ((and (number? a1) (number? a2)) (+ a1 a2))
@@ -1501,6 +1513,11 @@
 
 
 (define (make-product m1 m2)
+  (display " the product of ")
+  (display m1)
+  (display " and ")
+  (display m2)
+  (newline)
   (cond ((or (=number? m1 0) (=number? m2 0)) 0)
         ((=number? m1 1) m2)
         ((=number? m2 1) m1)
@@ -1514,13 +1531,17 @@
 
 ;; ex 2.56
 (define (deriv exp var)
+  (display exp)
+  (newline)
   (cond ((number? exp) 0)
         ((variable? exp)
          (if (same-variable? exp var) 1 0))
         ((sum? exp)
+	 (display "Expression is sum ")
          (make-sum (deriv (addend exp) var)
                    (deriv (augend exp) var)))
         ((product? exp)
+	 (display "Expression is product ")
          (make-sum
            (make-product (multiplier exp)
                          (deriv (multiplicand exp) var))
