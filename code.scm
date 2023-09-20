@@ -1572,6 +1572,62 @@
   (and (pair? exp) (eq? (car exp) '**)))
   
 
+;; ex 2.58 (both a and b)
+
+(define (member? x lst)
+  (cond
+    ((null? lst) #f)
+    ((eq? (car lst) x) #t)
+    (else (member? x (cdr lst)))))
+
+
+(define (sum? exp)
+    
+  (and (pair? exp) (or (eq? (cadr exp) '+)
+		       (member? '+ exp))))
+(define (prefix exp symbol)
+  (if (eq? (car exp) symbol)
+      '()
+      (cons (car exp) (prefix (cdr exp) symbol))))
+
+(define (addend exp)
+  (if (eq? (cadr exp) '+)
+      (car exp)
+      (prefix exp '+)))
+
+(define (augend exp)
+  (if (= (length (memq '+ exp)) 2)
+      (cadr (memq '+ exp))
+      (cdr (memq '+ exp))))
+
+(define (product? exp)
+  (and (pair? exp) (eq? (cadr exp) '*)))
+
+(define (multiplier exp)
+  (car exp))
+
+(define (multiplicand exp)
+  (if (= (length exp) 3)
+      (caddr exp)
+      (cddr exp)))
+  
+
+(define (make-sum a1 a2)
+  (cond
+   ((=number? a1 0) a2)
+   ((=number? a2 0) a1)
+   ((and (number? a1) (number? a2)) (+ a1 a2))
+   (else (list a1 '+ a2))))
+
+(define (make-product m1 m2)
+  (cond ((or (=number? m1 0) (=number? m2 0)) 0)
+        ((=number? m1 1) m2)
+        ((=number? m2 1) m1)
+        ((and (number? m1) (number? m2)) (* m1 m2))
+        (else (list m1 '* m2))))
+
+
+
 
 
 
