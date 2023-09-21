@@ -1676,6 +1676,39 @@
    (else (cons (car set1)
 	       (union-set (cdr set1) set2)))))
 
-
+;; In designing a representation, one of the issues we should be concerned with
+;; is efficiency.
 
        
+;; sets as ordered lists
+;; One way to speed up our set operations is to change the representation
+;; so that the set elements are listed in increasing order.
+
+(define (element-of-set?-ordered x set)
+  (cond ((null? set) false)
+        ((= x (car set)) true)
+        ((< x (car set)) false)
+        (else (element-of-set? x (cdr set)))))
+
+(define (intersection-set-ordered set1 set2)
+  (if (or (null? set1) (null? set2))
+      '()    
+      (let ((x1 (car set1)) (x2 (car set2)))
+        (cond ((= x1 x2)
+               (cons x1
+                     (intersection-set (cdr set1)
+                                       (cdr set2))))
+              ((< x1 x2)
+               (intersection-set (cdr set1) set2))
+              ((< x2 x1)
+               (intersection-set set1 (cdr set2)))))))
+
+;; ex 2.61
+(define (adjoin-set-ordered x set)
+  (cond
+   ((null? set) (cons x '()))
+   ((= (car set) x) set)
+   ((> x (car set)) (cons (car set)
+			  (adjoin-set-ordered x (cdr set))))
+   (else (cons x set))))
+
