@@ -1572,7 +1572,7 @@
   (and (pair? exp) (eq? (car exp) '**)))
   
 
-;; ex 2.58 (both a and b)
+;; ex 2.58a
 
 (define (member? x lst)
   (cond
@@ -1583,22 +1583,17 @@
 
 (define (sum? exp)
     
-  (and (pair? exp) (or (eq? (cadr exp) '+)
-		       (member? '+ exp))))
-(define (prefix exp symbol)
-  (if (eq? (car exp) symbol)
-      '()
-      (cons (car exp) (prefix (cdr exp) symbol))))
+  (and (pair? exp) (eq? (cadr exp) '+)))
+		      
+
 
 (define (addend exp)
-  (if (eq? (cadr exp) '+)
-      (car exp)
-      (prefix exp '+)))
+ 
+      (car exp))
+     
 
 (define (augend exp)
-  (if (= (length (memq '+ exp)) 2)
-      (cadr (memq '+ exp))
-      (cdr (memq '+ exp))))
+  (caddr exp))
 
 (define (product? exp)
   (and (pair? exp) (eq? (cadr exp) '*)))
@@ -1607,9 +1602,7 @@
   (car exp))
 
 (define (multiplicand exp)
-  (if (= (length exp) 3)
-      (caddr exp)
-      (cddr exp)))
+  (caddr exp))
   
 
 (define (make-sum a1 a2)
