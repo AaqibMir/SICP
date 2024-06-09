@@ -2326,4 +2326,52 @@
 ;; the rest of definitions are installed in their respective packages
 
 
+;; ex 2.81
+
+;; a
+
+;; since the entry does not exist for exp and complex, proc will return
+;; false which would make apply-generic try coercion. since the coercion
+;; procedures for the same type now exist in the system it would be
+;; successful at least that is how it would seem. The next iteration would
+;; be exactly the same as previous because nothing has changed about the
+;; arguments to apply-generic, so it would have the same fate leading us
+;; to infinite recursion
+
+
+;; b
+;; if we hadn't done anything, apply-generic would have tried coercion, but
+;; since the procedures didn't exist, it would have gotten #f as a result,
+;; which would have forced it to quit.
+
+
+;; c
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (cond
+       (proc (apply proc (map contents args)))
+       ;; if proc value returns false,
+       ((equal? (car type-tags)
+		(cadr type-tags)) (error "The operation, doesn't exist"
+					 (list op type-tags)))
+       ((= (length args) 2)
+	(let ((type1 (car type-tags))
+	      (type2 (cadr type-tags))
+	      (a1 (car args))
+	      (a2 (cadr args)))
+                (let ((t1->t2 (get-coercion type1 type2))
+                      (t2->t1 (get-coercion type2 type1)))
+                  (cond (t1->t2
+                         (apply-generic op (t1->t2 a1) a2))
+                        (t2->t1
+                         (apply-generic op a1 (t2->t1 a2)))
+                        (else
+                         (error "No method for these types"
+                                (list op type-tags)))))))
+       (else
+              (error "No method for these types"
+
+                     (list op type-tags)))))))
+
 
